@@ -1,3 +1,12 @@
+/*jslint         browser : true, continue : true,
+    devel  : true, indent  : 2,    maxerr   : 50,
+    newcap : true, nomen   : true, plusplus : true,
+    regexp : true, sloppy  : true, vars     : false,
+    white  : true
+*/
+
+/*global $, spacerocks */
+
 var inputCommands;
 var keyState;
 var canvas;
@@ -123,18 +132,7 @@ smallAsteroid.prototype.load = function(x, y){
 	this.width = 32;
 	this.height = 33;
 	
-	for (var i = 0; i < 32; i++)
-	{
-		this.images.push(new Image());
-		if (i < 9)
-		{
-			this.images[i].src = "SmaAst0" + String(i + 1) + ".png";
-		}
-		else
-		{
-			this.images[i].src = "SmaAst" + String(i + 1) + ".png";
-		}
-	}
+  this.images = spacerocks.utils.get32Images("SmaAst");
 	
 	if (this.X < 0)
 	{
@@ -170,19 +168,8 @@ mediumAsteroid.prototype.load = function(x, y){
 	this.width = 32;
 	this.height = 33;
 	
-	for (var i = 0; i < 32; i++)
-	{
-		this.images.push(new Image());
-		if (i < 9)
-		{
-			this.images[i].src = "MedAst0" + String(i + 1) + ".png";
-		}
-		else
-		{
-			this.images[i].src = "MedAst" + String(i + 1) + ".png";
-		}
-	}
-	
+  this.images = spacerocks.utils.get32Images("MedAst");
+  	
 	if (this.X < 0)
 	{
 		this.xVel = (Math.random() * 400) + 200;
@@ -217,18 +204,7 @@ bigAsteroid.prototype.load = function(x, y){
 	this.width = 58;
 	this.height = 58;
 	
-	for (var i = 0; i < 32; i++)
-	{
-		this.images.push(new Image());
-		if (i < 9)
-		{
-			this.images[i].src = "BigAst0" + String(i + 1) + ".png";
-		}
-		else
-		{
-			this.images[i].src = "BigAst" + String(i + 1) + ".png";
-		}
-	}
+  this.images = spacerocks.utils.get32Images("BigAst");
 	
 	if (this.X < 0)
 	{
@@ -332,18 +308,7 @@ var player = new (function(){
 //attributes  
     that.images = [];  
 	
-	for (var i = 0; i < 32; i++)
-	{
-		this.images.push(new Image());
-		if (i < 9)
-		{
-			this.images[i].src = "Corvette0" + String(i + 1) + ".png";
-		}
-		else
-		{
-			this.images[i].src = "Corvette" + String(i + 1) + ".png";
-		}
-	}
+  this.images = spacerocks.utils.get32Images("Corvette");
 //create new Image and set it's source to the   
 //'angel.png' image I upload above  
   
