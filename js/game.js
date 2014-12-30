@@ -10,7 +10,7 @@
 var inputCommands;
 var keyState;
 var canvas;
-var mainMenu;
+//var mainMenu;
 
 $(function() {
 	keyState = new KeyState();
@@ -23,23 +23,23 @@ $(function() {
 		keyState.Update(event);
 	});
 
-	var arbitraryMenuWidth = 170;
-	var arbitraryMenuHeight = 60;
-	var menuX = canvas[0].width/2 - arbitraryMenuWidth/2;
-	var menuY = canvas[0].height/2 + 20;
-	mainMenu = MenuFactory.prototype.MakeMenu(["Let it Begin!"], ctx);
-	mainMenu.X = menuX;
-	mainMenu.Y = menuY;
-	mainMenu.Buttons[0].OnClick = function() {
-	   	//Insert function that starts the game here.
-   	};
+	//var arbitraryMenuWidth = 170;
+	//var arbitraryMenuHeight = 60;
+	//var menuX = canvas[0].width/2 - arbitraryMenuWidth/2;
+	//var menuY = canvas[0].height/2 + 20;
+	//mainMenu = MenuFactory.prototype.MakeMenu(["Let it Begin!"], ctx);
+	//mainMenu.X = menuX;
+	//mainMenu.Y = menuY;
+	//mainMenu.Buttons[0].OnClick = function() {
+	//   	//Insert function that starts the game here.
+  // 	};
 
-	canvas.on("click", function(event) {
-		var offset = canvas.offset();
-		event.canvasX = event.clientX - offset.left;
-		event.canvasY = event.clientY - offset.top;
-		mainMenu.OnClick(event);
-	});
+	//canvas.on("click", function(event) {
+	//	var offset = canvas.offset();
+	//	event.canvasX = event.clientX - offset.left;
+	//	event.canvasY = event.clientY - offset.top;
+	//	mainMenu.OnClick(event);
+	//});
 
 	GameLoop();
 });
@@ -425,6 +425,6 @@ var GameLoop = function(){
   DrawAsteroids();
   player.update();
   player.draw();  
-  mainMenu.Draw();
+  //mainMenu.Draw();
   gLoop = setTimeout(GameLoop, 1000 / 50);  
 };
