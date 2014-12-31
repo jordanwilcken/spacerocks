@@ -7,9 +7,9 @@
 
 /*global $, spacerocks */
 
-var inputCommands;
-var keyState;
-var canvas;
+var 
+  inputCommands, keyState, canvas
+  GetCollidables, HandleCollisions;
 //var mainMenu;
 
 $(function() {
@@ -399,28 +399,42 @@ player.setPosition(~~((width-player.width)/2),  ~~((height - player.height)/2));
 //given float, equivalent of Math.floor()  
 CreateLevel();
 
+GetCollidables = function() {
+  var collidables = [];
+  collidables.push(player);
+
+  for (var i = 0; i < asteroids.length; i++) {
+    collidables.push(asteroids[i];
+  }
+
+  return collidables;
+}
+
 var GameLoop = function(){  
   clear();  
   inputCommands.Update(keyState);
   for (var i = 0; i < inputCommands.Commands.length; i++)
   {
-	switch (inputCommands.Commands[i])
-	{
-		case "Rotate Clockwise":
-		{
-			player.rotate(true);
-		} break;
-		case "Rotate Counter Clockwise":
-		{
-			player.rotate(false);
-		} break;
-		case "Thrust":
-		{
-			player.accelerate();
-		}
-	}
+	  switch (inputCommands.Commands[i])
+	  {
+	  	case "Rotate Clockwise":
+	  	{
+	  		player.rotate(true);
+	  	} break;
+	  	case "Rotate Counter Clockwise":
+	  	{
+	  		player.rotate(false);
+	  	} break;
+	  	case "Thrust":
+	  	{
+	  		player.accelerate();
+	  	}
+	  }
   }
   setDelta();
+
+  RespondToCollisions(GetCollidables());
+
   MoveAsteroids(5);  
   DrawAsteroids();
   player.update();
