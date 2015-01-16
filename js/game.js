@@ -8,7 +8,7 @@
 /*global $, spacerocks */
 
 var 
-  inputCommands, keyState, canvas
+  inputCommands, keyState, canvas,
   GetCollidables, HandleCollisions;
 //var mainMenu;
 
@@ -404,11 +404,17 @@ GetCollidables = function() {
   collidables.push(player);
 
   for (var i = 0; i < asteroids.length; i++) {
-    collidables.push(asteroids[i];
+    collidables.push(asteroids[i]);
   }
 
   return collidables;
-}
+};
+
+RespondToCollisions = function (collidables) {
+  var players, asteroids;
+
+  players = collidables.filter( function (item)  { typeof(item) === player; } );
+};
 
 var GameLoop = function(){  
   clear();  
@@ -427,7 +433,7 @@ var GameLoop = function(){
 	  	} break;
 	  	case "Thrust":
 	  	{
-	  		player.accelerate();
+	  		player.accelerate(delta);
 	  	}
 	  }
   }
@@ -437,8 +443,8 @@ var GameLoop = function(){
 
   MoveAsteroids(5);  
   DrawAsteroids();
-  player.update();
-  player.draw();  
+  player.update(delta);
+  player.draw(ctx);  
   //mainMenu.Draw();
   gLoop = setTimeout(GameLoop, 1000 / 50);  
 };
