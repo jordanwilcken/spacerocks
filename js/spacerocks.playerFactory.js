@@ -19,6 +19,7 @@ spacerocks.playerFactory = (function () {
   var playerProto, makePlayer;
 
   playerProto = {
+    type: "player",
     setPosition: function(x, y){  
       this.X = x;  
       this.Y = y;
@@ -39,23 +40,6 @@ spacerocks.playerFactory = (function () {
 	  update: function(delta){
       this.X += this.xVel * delta;
       this.Y += this.yVel * delta;
-      
-      if (this.X < -32)
-      {
-        this.X += this.width + 32;
-      }
-      else if (this.X > this.width + 32)
-      {
-        this.X -= this.width + 32;
-      }
-      if (this.Y < -32)
-      {
-        this.Y += this.height + 32;
-      }
-      else if (this.Y > this.height + 32)
-      {
-        this.Y -= this.height + 32;
-      }
     },
 	  rotate: function(direction){
       if (direction)

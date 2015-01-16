@@ -298,99 +298,7 @@ var MoveAsteroids = function(){
   }  
 };
 	
-var player = new (function(){  
-//create new object based on function and assign   
-//what it returns to the 'player' variable  
-  
-    var that = this;  
-//'that' will be the context now  
-  
-//attributes  
-    that.images = [];  
-	
-  this.images = spacerocks.utils.get32Images("Corvette");
-//create new Image and set it's source to the   
-//'angel.png' image I upload above  
-  
-	that.currentFrame = 0;
-  
-    that.width = 32;  
-//width of the single frame  
-    that.height = 32;  
-//height of the single frame  
-  
-    that.X = 0;  
-    that.Y = 0;  
-	that.xVel = 0;
-	that.yVel = 0;
-//X&Y position  
-  
-//methods   
-    that.setPosition = function(x, y){  
-    that.X = x;  
-    that.Y = y;
-};
-  
-    that.draw = function(){  
-        try {  
-            ctx.drawImage(that.images[that.currentFrame], 0, 0, that.width, that.height, that.X, that.Y, that.width, that.height);  
-//cutting source image and pasting it into destination one, drawImage(Image Object, source X, source Y, source Width, source Height, destination X (X position), destination Y (Y position), Destination width, Destination height)  
-        } catch (e) {  
-//sometimes, if character's image is too big and will not load until the drawing of the first frame, Javascript will throws error and stop executing everything. To avoid this we have to catch an error and retry painting in another frame. It is invisible for the user with 50 frames per second.  
-        }  
-    };  
-	
-	that.accelerate = function(){
-		var degree = (((11.25 * that.currentFrame) - 90) * Math.PI) / 180;
-		that.xVel += Math.cos(degree) * delta * 200;
-		that.yVel += Math.sin(degree) * delta * 200;
-	}
-	
-	that.update = function(){
-		that.X += that.xVel * delta;
-		that.Y += that.yVel * delta;
-		
-		if (that.X < -32)
-		{
-			that.X += width + 32;
-		}
-		else if (that.X > width + 32)
-		{
-			that.X -= width + 32;
-		}
-		if (that.Y < -32)
-		{
-			that.Y += height + 32;
-		}
-		else if (that.Y > height + 32)
-		{
-			that.Y -= height + 32;
-		}
-	}
-	
-	that.rotate = function(direction){
-		if (direction)
-		{
-			that.currentFrame++;
-			if (that.currentFrame == 32)
-			{
-				that.currentFrame = 0;
-			}
-		}
-		else
-		{
-			that.currentFrame--;
-			if (that.currentFrame < 0)
-			{
-				that.currentFrame = 31;
-			}
-		}
-	}
-	
-})();  
-//we immediately execute the function above and   
-//assign its result to the 'player' variable  
-//as a new object   
+var player = spacerocks.playerFactory.makePlayer();
   
 player.setPosition(~~((width-player.width)/2),  ~~((height - player.height)/2));  
 //our character is ready, let's move it   
@@ -413,7 +321,7 @@ GetCollidables = function() {
 RespondToCollisions = function (collidables) {
   var players, asteroids;
 
-  players = collidables.filter( function (item)  { typeof(item) === player; } );
+  players = collidables.filter( function (item)  { return item.type === "player"; } );
 };
 
 var GameLoop = function(){  
@@ -444,6 +352,22 @@ var GameLoop = function(){
   MoveAsteroids(5);  
   DrawAsteroids();
   player.update(delta);
+  if (player.X < -32)
+  {
+    player.X += width + 32;
+  }
+  else if (player.X > width + 32)
+  {
+    player.X -= width + 32;
+  }
+  if (player.Y < -32)
+  {
+    player.Y += height + 32;
+  }
+  else if (player.Y > height + 32)
+  {
+    player.Y -= height + 32;
+  }
   player.draw(ctx);  
   //mainMenu.Draw();
   gLoop = setTimeout(GameLoop, 1000 / 50);  
