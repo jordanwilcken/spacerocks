@@ -68,10 +68,12 @@ spacerocks.playerFactory = (function () {
 	  player.currentFrame = 0;
     player.width = 32;
     player.height = 32;
+    player.radius = player.width/2;
     player.X = 0;
     player.Y = 0;
 	  player.xVel = 0;
 	  player.yVel = 0;
+    player.mass = 1;
     
     return player;
   };

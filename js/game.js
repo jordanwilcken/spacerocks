@@ -100,8 +100,6 @@ var asteroid = function(){
 asteroid.prototype.setPosition = function(x, y){
 	this.X = x;
 	this.Y = y;
-	
-	
 }
 
 asteroid.prototype.draw = function(){  
@@ -131,6 +129,7 @@ smallAsteroid.prototype.load = function(x, y){
 
 	this.width = 32;
 	this.height = 33;
+  this.radius = width/2;
 	
   this.images = spacerocks.utils.get32Images("SmaAst");
 	
@@ -203,6 +202,8 @@ bigAsteroid.prototype.load = function(x, y){
 
 	this.width = 58;
 	this.height = 58;
+  this.radius = this.width/2;
+  this.mass = 3;
 	
   this.images = spacerocks.utils.get32Images("BigAst");
 	
@@ -319,9 +320,41 @@ GetCollidables = function() {
 };
 
 RespondToCollisions = function (collidables) {
-  var players, asteroids;
+  var
+    players, asteroids, j, current, next, distance,
+    currentMomentumNumber, nextMomentumNumber;
 
   players = collidables.filter( function (item)  { return item.type === "player"; } );
+  asteroids = collidables.filter( function (item) { return item instanceof asteroid; } );
+
+  players.forEach( function (currentPlayer) {
+    asteroids.forEach( function (asteroid) {
+      var playerMomentumNumber, asteroidMomentumNumber;
+
+      distance = spacerocks.utils.getShortestDistance(
+        { x: currentPlayer.X, y: currentPlayer.Y },
+        { x: asteroid.X, y: asteroid.Y },
+        { width: width, height: height }
+      ); 
+      if (distance.scalar < currentPlayer.radius + asteroid.radius) {
+        playerMomentumNumber = spacerocks.utils.getMomentumNumber( currentPlayer, asteroid );
+        asteroidMomentumNumber = spacerocks.utils.getMomentumNumber( asteroid, currentPlayer );
+      }
+    });
+  });
+
+  for (j = 0; j < asteroids.length - 1; ++j) {
+    current = asteroids[j];
+    next = asteroids[j+1];
+    distance.scalar = spacerocks.utils.getShortestDistance(
+      { x: current.X, y: current.Y },
+      { x: next.X, y: next.Y },
+      { width: width, height: height }
+    ); 
+    if (distance < current.radius + next.radius) {
+      Math.pow(2, 2);
+    }
+  }
 };
 
 var GameLoop = function(){  
