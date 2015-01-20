@@ -2,25 +2,17 @@
   <head>  
 	<link rel="stylesheet" href="css/base.css">
     <title>Asteroids Clone</title>  
-  <style>  
-  body {  
-    margin:0px;  
-    padding:0px;  
-    text-align:center;  
-  }  
-  
-  canvas{  
-    outline:0;  
-    border:1px solid #000;  
-    margin-left: auto;  
-    margin-right: auto;  
-  }  
-  </style>  
   </head>  
+
   <body>  
-	<canvas id='c' tabindex="1">
-		You are seeing this because your browser does not support the HTML Canvas.
-	</canvas>
+    <div id="wrapper">
+      <h1 id="title-header">Spacerocks</h1>
+  	  <canvas id='c' tabindex="1">
+	  	You are seeing this because your browser does not support the HTML Canvas.
+	  </canvas>
+      <p id="controls-explanation">"A", "S", and spacebar do stuff.  None of the other keys do.</p>
+	</div>
+
 	<script src="js/jquery-1.9.1.js"></script>
 
 	<script src="js/spacerocks.js"></script>
