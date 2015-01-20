@@ -322,7 +322,7 @@ GetCollidables = function() {
 RespondToCollisions = function (collidables) {
   var
     players, asteroids, j, current, next, distance,
-    currentMomentumNumber, nextMomentumNumber;
+    currentMomentumNumber, nextMomentumNumber, xfactor, yfactor;
 
   players = collidables.filter( function (item)  { return item.type === "player"; } );
   asteroids = collidables.filter( function (item) { return item instanceof asteroid; } );
@@ -337,8 +337,16 @@ RespondToCollisions = function (collidables) {
         { width: width, height: height }
       ); 
       if (distance.scalar < currentPlayer.radius + asteroid.radius) {
-        playerMomentumNumber = spacerocks.utils.getMomentumNumber( currentPlayer, asteroid );
-        asteroidMomentumNumber = spacerocks.utils.getMomentumNumber( asteroid, currentPlayer );
+		xfactor = distance.vector.x / distance.scalar;
+ 		yfactor = distance.vector.y / distance.scalar;
+
+        playerMomentumNumber = spacerocks.utils.getMomentumNumber( currentPlayer, asteroid, distance );
+        asteroidMomentumNumber = spacerocks.utils.getMomentumNumber( asteroid, currentPlayer, distance );
+
+		currentPlayer.xVel += playerMomentumNumber * xfactor;
+		currentPlayer.yVel += playerMomentumNumber * yfactor;
+		asteroid.xVel += asteroidMomentumNumber * xfactor;
+		asteroid.yVel += asteroidMomentumNumber * yfactor;
       }
     });
   });
@@ -346,13 +354,23 @@ RespondToCollisions = function (collidables) {
   for (j = 0; j < asteroids.length - 1; ++j) {
     current = asteroids[j];
     next = asteroids[j+1];
-    distance.scalar = spacerocks.utils.getShortestDistance(
+    distance = spacerocks.utils.getShortestDistance(
       { x: current.X, y: current.Y },
       { x: next.X, y: next.Y },
       { width: width, height: height }
     ); 
-    if (distance < current.radius + next.radius) {
-      Math.pow(2, 2);
+    if (distance.scalar < current.radius + next.radius) {
+      xfactor = distance.vector.x / distance.scalar;
+	  yfactor = distance.vector.y / distance.scalar;
+
+	  currentMomentumNumber = spacerocks.utils.getMomentumNumber( current, next, distance );
+	  nextMomentumNumber = spacerocks.utils.getMomentumNumber( next, current, distance );
+
+	  current.xVel += currentMomentumNumber * xfactor;
+	  current.yVel += currentMomentumNumber * yfactor;
+
+	  next.xVel += nextMomentumNumber * xfactor;
+	  next.yVel += nextMomentumNumber * yfactor;
     }
   }
 };
