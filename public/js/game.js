@@ -9,8 +9,18 @@
 
 var 
   inputCommands, keyState, canvas,
-  GetCollidables, HandleCollisions;
+  GetCollidables, HandleCollisions,
+  thrustAudio = new Audio("resources/thrust.mp3"),
+  bonkAudio = [
+    new Audio("resources/bonk.mp3"),
+    new Audio("resources/bonk.mp3"),
+    new Audio("resources/bonk.mp3"),
+    new Audio("resources/bonk.mp3"),
+    new Audio("resources/bonk.mp3")
+  ];
 //var mainMenu;
+
+thrustAudio.loop = true;
 
 $(function() {
 	keyState = new KeyState();
@@ -347,6 +357,13 @@ RespondToCollisions = function (collidables) {
 		currentPlayer.yVel += playerMomentumNumber * yfactor;
 		asteroid.xVel += asteroidMomentumNumber * xfactor;
 		asteroid.yVel += asteroidMomentumNumber * yfactor;
+		
+		for (var j = 0; j < bonkAudio.length; ++j) {
+		  if (bonkAudio[j].paused) {
+			bonkAudio[j].play();
+			break;
+		  }
+		}
       }
     });
   });
@@ -371,6 +388,13 @@ RespondToCollisions = function (collidables) {
 
 	  next.xVel += nextMomentumNumber * xfactor;
 	  next.yVel += nextMomentumNumber * yfactor;
+
+	  for (var j = 0; j < bonkAudio.length; ++j) {
+	    if (bonkAudio[j].paused) {
+	  	bonkAudio[j].play();
+	  	break;
+	    }
+	  }
     }
   }
 };
@@ -378,6 +402,9 @@ RespondToCollisions = function (collidables) {
 var GameLoop = function(){  
   clear();  
   inputCommands.Update(keyState);
+  if (keyState.Space_Pressed && inputCommands.Commands.length === 0) {
+	clear();
+  }
   for (var i = 0; i < inputCommands.Commands.length; i++)
   {
 	  switch (inputCommands.Commands[i])
@@ -390,12 +417,20 @@ var GameLoop = function(){
 	  	{
 	  		player.rotate(false);
 	  	} break;
-	  	case "Thrust":
-	  	{
-	  		player.accelerate(delta);
-	  	}
 	  }
   }
+  if (inputCommands.Commands.indexOf("Thrust") > -1)
+  {
+  	player.accelerate(delta);
+  	if (thrustAudio.paused) {
+  	  thrustAudio.play();
+  	}
+  } else {
+    if (!thrustAudio.paused) {
+      thrustAudio.pause();
+	}
+  }
+
   setDelta();
 
   RespondToCollisions(GetCollidables());

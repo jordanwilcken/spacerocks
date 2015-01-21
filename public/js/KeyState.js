@@ -70,9 +70,11 @@ InputCommands.prototype.Update = function(keyState) {
 		}
 	}
 
-	if(keyState.Space_Pressed &&this.Commands.indexOf(InputCommands.prototype.Thrust) == -1)
+	if(keyState.Space_Pressed)
 	{
-		this.Commands.push(InputCommands.prototype.Thrust);	
+		if (this.Commands.indexOf(InputCommands.prototype.Thrust) == -1) {
+		  this.Commands.push(InputCommands.prototype.Thrust);	
+		}
 	}
 	else
 	{
